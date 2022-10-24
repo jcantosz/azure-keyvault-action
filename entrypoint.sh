@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+# Remake this in nodejs, I dont think we have access to $HOME which is where the 
+#   .azure directory with credentials lives
+
+
 VAULT="$1"
 # Could also allow users to specify secret_type::secret_name so they could 
 #  read secrets, certs and keys from a single step
