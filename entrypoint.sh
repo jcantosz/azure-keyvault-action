@@ -8,7 +8,7 @@ SECRET_TYPE="$2"
 KEYS=${3//,/ }
 OUTPUT_ENVS="$4"
 OUTPUT_OUTPUTS="$5"
-DEBUG="true"
+DEBUG="${DEBUG:-false}"
 
 test -z "${VAULT}" && echo "input.vault-name must be specified" && exit 1
 test -z "${SECRET_TYPE}" && echo "input.type must be specified" && exit 2
@@ -20,6 +20,7 @@ function debug(){
     fi
 }
 
+debug "DEBUG MODE : ${DEBUG}"
 debug "INPUTS\n------------"
 debug "input.vault-name=${VAULT}"
 debug "input.type=${SECRET_TYPE}"
@@ -29,12 +30,13 @@ debug "input.output-outputs=${OUTPUT_OUTPUTS}"
 
 # Iterate through all KEYS
 for key in ${KEYS[@]}; do
+    debug "Using key: \"${key}\""
     # Remove non alpha-numeric characters with underscore (_)
-    SAFE_KEY=$(echo ${key} sed -E 's/[^[:alnum:]]+/_/g')
+    SAFE_KEY=$(echo ${key} | sed -E 's/[^[:alnum:]]+/_/g')
     
     debug "Transformed: \"${key}\" --> \"${SAFE_KEY}\""
 
-    debug "Running: az keyvault ${SECRET_TYPE} show --name \"${key}\" --vault-name "${VALUT}" --query \"value\""
+    debug "Running: az keyvault ${SECRET_TYPE} show --name \"${key}\" --vault-name "${VAULT}" --query \"value\""
 
     # Get the key
     val=$(az keyvault ${SECRET_TYPE} show --name "${key}" --vault-name "${VALUT}" --query "value")
