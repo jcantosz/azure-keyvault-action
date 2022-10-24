@@ -36,10 +36,10 @@ for key in ${KEYS[@]}; do
     
     debug "Transformed: \"${key}\" --> \"${SAFE_KEY}\""
 
-    debug "Running: az keyvault ${SECRET_TYPE} show --name \"${key}\" --vault-name "${VAULT}" --query \"value\""
+    debug "Running: az keyvault ${SECRET_TYPE} show --name \"${key}\" --vault-name \"${VAULT}\" --query \"value\""
 
     # Get the key
-    val=$(az keyvault ${SECRET_TYPE} show --name "${key}" --vault-name "${VALUT}" --query "value")
+    val=$(az keyvault ${SECRET_TYPE} show --name "${key}" --vault-name "${VAULT}" --query "value")
     # Mask the secret in logs
     echo "::add-mask::${val}"
     
