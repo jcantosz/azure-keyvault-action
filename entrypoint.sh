@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 VAULT="$1"
 # Could also allow users to specify secret_type::secret_name so they could 
@@ -16,9 +16,12 @@ test -z "${KEYS}" && echo "input.keys must be specified" && exit 4
 
 function debug(){
     if [[ "${DEBUG}" == "true" ]]; then
-        echo $@
+        echo "DEBUG:: $@"
     fi
 }
+
+debug "pwd: ${PWD}"
+debug "ls -halt: $(ls -halt)"
 
 debug "DEBUG MODE : ${DEBUG}"
 debug "INPUTS\n------------"
