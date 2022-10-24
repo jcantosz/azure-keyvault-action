@@ -17,7 +17,7 @@ inputs:
   keys:
     description: 'The keys of the resource to get (comma-seperated)'
     required: true
-  output-env:
+  output-envs:
     description: 'Create environment variables from the keys?'
     required: true
     default: 'true'
@@ -35,5 +35,5 @@ runs:
     - ${{ inputs.vault-name }}
     - ${{ inputs.type }}
     - ${{ inputs.keys }}
-    - ${{ inputs.output-env }}
+    - ${{ inputs.output-envs }}
     - ${{ inputs.output-outputs }}
