@@ -58,7 +58,7 @@ const exportSecret = async (objectType: string, vaultName: string, key: string, 
             outputType = (outputType != "none") ? outputType + " & outputs" : "outputs"
         }
 
-        core.info(`Exported secret "${secret}" as ${outputType} variable called "${outputName}"`)
+        core.info(`Exported secret "${key}" as ${outputType} variable called "${outputName}"`)
     } catch(err) {
         core.setFailed(`Action failed at exportSecret with error ${err}`);
     }
