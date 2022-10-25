@@ -1,0 +1,31 @@
+{
+  "name": "azure-keyvault-action",
+  "version": "1.0.0",
+  "description": "Work in progress",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcantosz/azure-keyvault-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcantosz/azure-keyvault-action/issues"
+  },
+  "homepage": "https://github.com/jcantosz/azure-keyvault-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/exec": "^1.1.1",
+    "@actions/io": "^1.1.2",
+    "@types/node": "^18.11.5"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
+    "tslint": "^6.1.3",
+    "typescript": "^4.8.4"
+  }
+}

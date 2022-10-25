@@ -7,33 +7,27 @@ branding:
   color: yellow
 
 inputs:
-  vault-name:  # id of input
+  vaultName:  # id of input
     description: 'The vault to read from'
     required: true
-  type:
+  objectType:
     description: 'The type of resource to get (secret, key, certificate)'
     default: 'secret'
     required: true
-  keys:
+  objectKeys:
     description: 'The keys of the resource to get (comma-seperated)'
     required: true
-  output-envs:
-    description: 'Create environment variables from the keys?'
-    required: true
+  outputEnvs:
+    description: 'Create environment variables from the keys? (true/false)'
+    required: false
     default: 'true'
-  output-outputs:
-    description: 'Create outputs variables from the keys?'
-    required: true
+  outputOutputs:
+    description: 'Create outputs variables from the keys? (true/false)'
+    required: false
     default: 'false'
 # outputs:
 #   time: # id of output
 #     description: 'The time we greeted you'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.vault-name }}
-    - ${{ inputs.type }}
-    - ${{ inputs.keys }}
-    - ${{ inputs.output-envs }}
-    - ${{ inputs.output-outputs }}
+  using: 'node16'
+  main: 'dist/index.js'
