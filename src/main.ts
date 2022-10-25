@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import stream = require('stream');
 
 export const run = async () => {
     try {
@@ -55,11 +56,25 @@ const exportSecret = async (objectType: string, vaultName: string, key: string, 
 
 }
 
+class NullOutstreamStringWritable extends stream.Writable {
+
+    constructor(options: any) {
+        super(options);
+    }
+
+    _write(data: any, encoding: string, callback: Function): void {
+        if (callback) {
+            callback();
+        }
+    }
+};
+
 const executeCommand = async (command: string, continueOnError: boolean = false): Promise<string> => {
     let retVal: string;
     let errMsg: string;
     try{
         var execOptions: any = {
+            outStream: new NullOutstreamStringWritable({ decodeStrings: false }),
             listeners: {
                 stdout: (data: Buffer) => {
                     retVal += data.toString();
