@@ -71,7 +71,7 @@ const executeCommand = async (command: string, continueOnError: boolean = false)
         };
             
 
-        let res = await exec.exec(command, execOptions);
+        let res = await exec.exec(command, [], execOptions);
         
     } catch(err) {
         let errorMessage = `Action failed at executeCommand with error ${err}`
