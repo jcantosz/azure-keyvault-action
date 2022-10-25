@@ -51,14 +51,14 @@ const exportSecret = async (objectType: string, vaultName: string, key: string, 
         let outputType = "none";
         if (outputEnvs){
             core.exportVariable(outputName, secret);
-            outputType = "env"
+            outputType = "env variable"
         }
         if (outputOutputs){
             core.setOutput(outputName, secret);
-            outputType = (outputType != "none") ? outputType + " & outputs" : "outputs"
+            outputType = (outputType != "none") ? outputType + " & outputs variables" : "outputs variable"
         }
 
-        core.info(`Exported secret "${key}" as ${outputType} variable called "${outputName}"`)
+        core.info(`Exported secret "${key}" as ${outputType} called "${outputName}"`)
     } catch(err) {
         core.setFailed(`Action failed at exportSecret with error ${err}`);
     }
@@ -109,7 +109,7 @@ const executeCommand = async (command: string, continueOnError: boolean = false)
             core.setFailed(errMsg)
         }
     }
-    return retVal;
+    return retVal.trim();
 }
 
 run();
