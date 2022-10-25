@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import { env } from 'process';
 import stream = require('stream');
 
 export const run = async () => {
@@ -20,7 +21,9 @@ export const run = async () => {
 
 
         for (let key of objectKeys){
-            await exportSecret(objectType, vaultName, key, outputEnvs, outputOutputs);
+            if(key){
+                await exportSecret(objectType, vaultName, key, outputEnvs, outputOutputs);
+            }
         }
     } catch (error) {
         core.error(error);
@@ -45,11 +48,17 @@ const exportSecret = async (objectType: string, vaultName: string, key: string, 
         let secret = await executeCommand(`az keyvault ${objectType} show --name "${key}" --vault-name "${vaultName}" --query "value"`, continueOnError);
 
         core.setSecret(secret);
-
-        if (outputEnvs)
+        let outputType = "none";
+        if (outputEnvs){
             core.exportVariable(outputName, secret);
-        if (outputOutputs)
+            outputType = "env"
+        }
+        if (outputOutputs){
             core.setOutput(outputName, secret);
+            outputType = (outputType != "none") ? outputType + " & outputs" : "outputs"
+        }
+        
+        core.info(`Exported secret as ${outputName} as ${outputType}`)
     } catch(err) {
         core.setFailed(`Action failed at exportSecret with error ${err}`);
     }
@@ -85,7 +94,7 @@ const executeCommand = async (command: string, continueOnError: boolean = false)
             }
         };
             
-
+        core.debug(`Executing ${command}`)
         let res = await exec.exec(command, [], execOptions);
         
     } catch(err) {
